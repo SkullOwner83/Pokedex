@@ -25,44 +25,67 @@ export const App: React.FC = () => {
     const [filter, setFilter] = useState<string>("");
 
     useEffect(() => {
-        for(let i = 1; i <= 150; i++) {
-            fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setPokemons(prev => [...prev, data])
-            })
-            .catch(error => console.error(error))
+        const fetchPokemons = async (): Promise<void> => {
+            try {
+                const pokemonResponse: Array<Promise<Pokemon>> = [];
+
+                for(let i = 1; i <= 150; i++) {
+                    pokemonResponse.push(
+                        fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            return {
+                                id: data.id,
+                                Name: data.name,
+                                Type: data.types["0"].type.name,
+                                Image: data.sprites.other["official-artwork"].front_default,
+                                Model: data.sprites.other["home"].front_default,
+                                Health: data.stats["0"].base_stat,
+                                Attack: data.stats["1"].base_stat,
+                                Defense: data.stats["2"].base_stat,
+                            }
+                        })
+                    );
+                }
+
+                const PokemonJSON = await Promise.all(pokemonResponse);
+                setPokemons(PokemonJSON);
+            }
+            catch (error) {
+                console.log(error);
+            }
         }
+
+        fetchPokemons();
     }, []);
 
     return (
         <div className='Cards-Container'>
             {
                 pokemons.map((poke) => {
-                    if (poke.types["0"].type.name == filter || filter == "") {
-                        return (
-                            <div className='Pokemon-Container'>
-                                <div className='Card-Container'>
-                                    <div className='Header-Container' style={{backgroundColor: Types[poke.types["0"].type.name]}}>
-                                        <p className='Pokemon-Name'>{poke.name}</p>
-                                    </div>
-
-                                    <div
-                                        key={poke.id}
-                                        className='Pokemon-Image'
-                                        style={{backgroundImage: `url(${poke.sprites.other["official-artwork"].front_default})`}}>
-                                    </div>
-
-                                    <div className='Card-Content'>
-                                        <p>{poke.types["0"].type.name}</p>
-                                    </div>
+                    return (
+                        <div className='Pokemon-Container'>
+                            <div className='Card-Container'>
+                                <div className='Header-Container' style={{backgroundColor: Types[poke.Type]}}>
+                                    <p className='Pokemon-Name'>{poke.Name}</p>
                                 </div>
 
-                                <img src={poke.sprites.other["home"].front_default}/>
+                                <div
+                                    key={poke.id}
+                                    className='Pokemon-Image'
+                                    style={{backgroundImage: `url(${poke.Image})`}}>
+                                </div>
+
+                                <div className='Card-Content'>
+                                    <p>Health: {poke.Health}</p>
+                                    <p>Attack: {poke.Attack}</p>
+                                    <p>Defense: {poke.Defense}</p>
+                                </div>
                             </div>
-                        )
-                    }
+
+                            <img src={poke.Model}/>
+                        </div>
+                    )
                 })
             }
         </div>

@@ -1,7 +1,13 @@
 export interface Pokemon  {
   id: number;
-  name: string;
-  type: string;
-  height: number;
-  weight: number;
+  Name: string;
+  Type: string;
+  Image: string;
+  Model: string;
+  Health: number;
+  Attack: number;
+  Defense: number;
+  // SpecialAttack: number;
+  // SpecialDefence: number;
+  // Speed: number;
 }
