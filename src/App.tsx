@@ -1,28 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Pokemon } from './Interface/Interfaces';
+import { Cards } from './Components/Cards';
+import { PokemonTypes_Color } from './Data/Pokemon';
 import './Styles/_Styles.scss'
-
-const Types: Record<string, string> = {
-    "grass" : 'green',
-    "fire" : 'red',
-    "poison" : 'purple',
-    "electric" : 'yellow',
-    "ground" :  'brown',
-    "water" : "blue",
-    "normal" : "gray",
-    "bug" : "antiquewhite",
-    "dragon" : "orange",
-    "fairy" : "pink",
-    "psychic" : "rgb(128, 0, 255)",
-    "fighting" : "rgb(252, 34, 0)",
-    "rock" : "rgb(94, 94, 94)",
-    "ghost" : "rgb(66, 0, 133)",
-    "ice" : "rgb(78, 199, 255)"
-}
+import { Header } from './Components/Header';
 
 export const App: React.FC = () => {
     const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
     const [filter, setFilter] = useState<string>("");
+    const [category, setCategory] = useState<string>('all');
 
     useEffect(() => {
         const fetchPokemons = async (): Promise<void> => {
@@ -59,35 +45,38 @@ export const App: React.FC = () => {
         fetchPokemons();
     }, []);
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement >) => {
+        setFilter(e.currentTarget.value)
+    }
+
+    const handleCategory = (newCategory: string) => {
+        setCategory(newCategory);
+    }
+
     return (
-        <div className='Cards-Container'>
-            {
-                pokemons.map((poke) => {
-                    return (
-                        <div className='Pokemon-Container'>
-                            <div className='Card-Container'>
-                                <div className='Header-Container' style={{backgroundColor: Types[poke.Type]}}>
-                                    <p className='Pokemon-Name'>{poke.Name}</p>
-                                </div>
+        <div className='App'>
+            <Header/>
 
-                                <div
-                                    key={poke.id}
-                                    className='Pokemon-Image'
-                                    style={{backgroundImage: `url(${poke.Image})`}}>
-                                </div>
+            <main>
+                <nav>
+                    <input type='text' value={filter} onChange={handleChange} className='Filter-Textbox' placeholder='Buscar un pokémon'/>
 
-                                <div className='Card-Content'>
-                                    <p>Health: {poke.Health}</p>
-                                    <p>Attack: {poke.Attack}</p>
-                                    <p>Defense: {poke.Defense}</p>
-                                </div>
-                            </div>
+                    <div className='Category-Filters'>
+                        {
+                            Object.entries(PokemonTypes_Color).map(([type, color]) => (
+                                <button
+                                className='Category-Container'
+                                style={{backgroundColor: color}}
+                                onClick={() => handleCategory(type)}>
+                                    {type}
+                                </button>
+                            ))
+                        }
+                    </div>
+                </nav>
 
-                            <img src={poke.Model}/>
-                        </div>
-                    )
-                })
-            }
+                <Cards Pokemons={pokemons} Filter={filter} Category={category}/>
+            </main>
         </div>
     )
 }

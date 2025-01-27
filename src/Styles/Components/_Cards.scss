@@ -1,0 +1,102 @@
+.Cards-Component {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px;
+    position: relative;
+
+    .Component-Background {
+        width: 80%;
+        height: 80%;
+        background-image: url('../../../public/Images/Logos/Pokeball.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        position: fixed;
+        opacity: 0.05;
+        transform: translateY(-50%);
+        top: 50%;
+        z-index: -100;
+    }
+
+    .Pokemon-Cards {
+        position: relative;
+    
+        .Card-Container {
+            width: 250px;
+            aspect-ratio: 3 / 4;
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 8px solid whitesmoke;
+            transition: 0.1s;
+            filter: drop-shadow(0 5px 5px rgba(black, 0.3));
+        
+            .Header-Container {
+                display: grid;
+                grid-template-columns: auto 1fr 32px;
+                align-items: center;
+                height: 32px;
+
+                .Pokemon-Id {
+                    grid-column: 1;
+                    font-size: 20px;
+                    font-weight: bold;
+                    padding-left: 8px;
+                }
+
+                .Pokemon-Name {
+                    font-size: 150%;
+                    grid-column: 2;
+                    font-weight: bold;
+                    text-align: center;
+                    text-transform: capitalize;
+                }
+
+                .Pokemon-Type {
+                    grid-column: 3;
+                    width: 100%;
+                    padding: 4px;
+                }
+            }
+
+            .Pokemon-Image {
+                width: 100%;
+                aspect-ratio: 4 / 3;
+                background-size:contain;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .Card-Content {
+                font-size: 16px;
+                padding: 32px;
+            }
+        }
+
+        .Pokemon-Model {
+            width: 100%;
+            position: absolute;
+            left: 50%;
+            top: 30%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: 0.3s;
+            z-index: 1000;
+        
+            
+        }
+        
+        &:hover img {
+            width: 150%;
+            opacity: 1;
+        }
+    
+        &:hover .Card-Container {
+            transform:
+                perspective(250px)
+                rotateX(10deg)
+                translateY(-5%)
+                translateZ(0)
+        }
+    }
+}
