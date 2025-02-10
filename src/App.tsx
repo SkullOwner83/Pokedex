@@ -23,7 +23,7 @@ export const App: React.FC = () => {
                             return {
                                 id: data.id,
                                 Name: data.name,
-                                Type: data.types["0"].type.name,
+                                Type: data.types.map((i: { type: { name: string } }) => i.type.name),
                                 Image: data.sprites.other["official-artwork"].front_default,
                                 Model: data.sprites.other["home"].front_default,
                                 Health: data.stats["0"].base_stat,
@@ -36,6 +36,7 @@ export const App: React.FC = () => {
 
                 const PokemonJSON = await Promise.all(pokemonResponse);
                 setPokemons(PokemonJSON);
+                console.log(PokemonJSON);
             }
             catch (error) {
                 console.log(error);

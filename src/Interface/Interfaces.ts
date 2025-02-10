@@ -1,13 +1,10 @@
 export interface Pokemon  {
   id: number;
   Name: string;
-  Type: string;
+  Type: Array<string>;
   Image: string;
   Model: string;
   Health: number;
   Attack: number;
   Defense: number;
-  // SpecialAttack: number;
-  // SpecialDefence: number;
-  // Speed: number;
 }

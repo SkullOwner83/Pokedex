@@ -20,7 +20,7 @@
 
     .Pokemon-Cards {
         position: relative;
-    
+
         .Card-Container {
             width: 250px;
             aspect-ratio: 3 / 4;
@@ -30,8 +30,12 @@
             border: 8px solid whitesmoke;
             transition: 0.1s;
             filter: drop-shadow(0 5px 5px rgba(black, 0.3));
+
+            display: grid;
+            grid-template-rows: auto 1fr auto;
         
             .Header-Container {
+                grid-row: 1;
                 display: grid;
                 grid-template-columns: auto 1fr 32px;
                 align-items: center;
@@ -60,16 +64,46 @@
             }
 
             .Pokemon-Image {
+                grid-row: 2;
                 width: 100%;
-                aspect-ratio: 4 / 3;
                 background-size:contain;
                 background-repeat: no-repeat;
                 background-position: center;
             }
 
             .Card-Content {
+                grid-row: 3;
+                font-family: Arial, Helvetica, sans-serif;
                 font-size: 16px;
-                padding: 32px;
+                font-weight: bold;
+                padding: 16px 32px;
+                
+
+                .Pokemon-Types {
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: 16px;
+                    gap: 8px;
+
+                    & p {
+                        font-size: 14px;
+                        text-transform: capitalize;
+                        text-align: center;
+                        border-radius: 8px;
+                        padding: 4px 16px;
+                    }
+                }
+
+                .Pokemon-Stats {
+                    display:  grid;
+                    grid-template-columns: 70% 30%;
+                    
+                    // .Stat-Name { grid-column: 1; }
+                    // .Stat-Value {
+                    //     grid-column: 2;
+                    //     text-align: right;
+                    // }
+                }
             }
         }
 

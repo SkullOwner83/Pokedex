@@ -18,8 +18,10 @@ nav {
             text-align: center;
             border-radius: 8px;
             padding: 4px 8px;
-
             border-style: none;
+            cursor: pointer;
+            z-index: 10000;
+
         }
     }
 }
