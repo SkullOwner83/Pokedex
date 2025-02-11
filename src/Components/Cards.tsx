@@ -15,8 +15,10 @@ export const Cards: React.FC<CardsProps> = ({ Pokemons, Filter, Category }) => {
 
             {
                 Pokemons.map((poke: Pokemon) => {
-                    if (((poke.Name.toLowerCase()).includes(Filter.toLowerCase()) || Filter == '')
-                        && (poke.Type.includes(Category) || Category == 'all')) {
+                    if ((   poke.Name.toLowerCase().includes(Filter.toLowerCase())
+                            || (poke.id.toString().includes(Filter) || Filter == ''))
+                            && (poke.Type.includes(Category) || Category == 'all')
+                        ) {
                         
                         return (
                             <div className='Pokemon-Cards'>
